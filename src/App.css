@@ -1,0 +1,54 @@
+.App{
+  background-color: #F5F5F5;
+  height: 90vh;
+  width: 90vw;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+
+.Main{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 3%;
+  
+}
+
+.dice {
+  display: grid;
+  grid-template-columns: repeat(5, 2fr);
+  grid-gap: 30px;
+  margin: 50px;
+  
+}
+
+.roll{
+  padding: 10px 24px;
+  width: 150px;
+  height: 50px;
+  border: none;
+  border-radius: 6px;
+  background-color: #4f46e5; /* Indigo/blue color */
+  color: white;
+  font-weight: 500;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  transition: transform 0.1s ease;
+
+}
+
+.roll:hover {
+  background-color: #6366f1; /* Un tono más claro de indigo/azul */
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 6px 0px, rgba(0, 0, 0, 0.08) 0px 2px 4px 0px;
+}
+
+.roll:active {
+  transform: translateY(1px);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+}
