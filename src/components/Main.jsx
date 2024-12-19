@@ -1,10 +1,11 @@
 import Button from "./Button";
 import { useState, useEffect } from "react";
+import Confeti from "./Confeti";
 
 
 const Main = () => {
     const [number, setNumber] = useState(10);
-    const [winner, setWinner] = useState(number);
+    const [winner, setWinner] = useState(false);
     const [chooseNumber, setChooseNumber] = useState(null);
     const [dice, setDice] = useState([]);
 
@@ -24,22 +25,36 @@ const Main = () => {
         if (!chooseNumber) {
             setChooseNumber(newNumber);
             changeColor(key);
-            setWinner(prevWinner => prevWinner -1)
-        } else if(chooseNumber == newNumber) {
-            changeColor(key);    
-            setWinner(prevWinner => prevWinner -1)
-        } else{
+
+        } else if (chooseNumber == newNumber) {
+            changeColor(key);
+        } else {
             console.log("they have to be the same number")
         }
 
     }
 
+    const checkWinner = () => {
+
+        if(dice.length == 0) return false
+
+        let win = dice.filter(item => item.frozen == false)
+        if (win.length == 0) {
+            setWinner(true)
+        } else if (win.length == dice.length) {
+            setChooseNumber(null) 
+            setWinner(false)
+        }else{
+            setWinner(false)
+        }
+    }
+
     const changeColor = (key) => {
-        setDice((prevDices) => prevDices.map((dice) => { return (dice.id !== key ? { ...dice } : { ...dice, color: "#59E391" }) }))
+        setDice((prevDices) => prevDices.map((dice) => { return (dice.id !== key ? { ...dice } : { ...dice, frozen: !dice.frozen }) }))
     }
 
     const rollDice = () => {
-        setDice(prevDices => prevDices.map(dice => dice.color == "#59E391" ? {...dice} : {...dice, number:(Math.floor(Math.random()*6)+1)}))
+        setDice(prevDices => prevDices.map(dice => dice.frozen == true ? { ...dice } : { ...dice, number: (Math.floor(Math.random() * 6) + 1) }))
     }
 
 
@@ -50,6 +65,11 @@ const Main = () => {
     }
 
     useEffect(() => { generateDice() }, [])
+
+    useEffect(() => {
+        checkWinner();
+    }, [dice]);
+    
 
 
     const buttons = dice.map((item) => {
@@ -65,13 +85,14 @@ const Main = () => {
 
     return (
         <div className="Main">
+            {winner ? <Confeti /> : null}
             <h1>Tenzies</h1>
             <p>Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
             <div className="dice">
                 {buttons}
             </div>
 
-            <button  className="roll" onClick={winner ==0 ? restart: rollDice}> {winner==0 ? "Congratulation" : "Roll"} </button>
+            <button className="roll" onClick={winner ? restart : rollDice}> {winner ? "Congratulation" : "Roll"} </button>
 
 
         </div>

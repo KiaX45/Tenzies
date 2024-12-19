@@ -1,9 +1,10 @@
 const Button = (props) => {
 
+
    const buttonStyle = {
         width: '60px',
         height: '60px',
-        backgroundColor: props.color,
+        backgroundColor: !props.frozen ? 'white': '#59E391',
         color: 'black',
         fontSize: '1.75rem',
         borderRadius: '5px',
